@@ -3,19 +3,24 @@ public class Recursion{
 	return "Wu,Joyce";
     }
     public static double sqrt(double n){
-	double guess = better(n, 0);
-	if(Math.abs(n-guess)/n < 0.0000000001){
-	    return guess;
+	if(n < 0){
+	    throw new IllegalArgumentException();
+	}else{
+	    return better(n, 1.0);
 	}
-	return better(n, guess);
     }
     private static double better(double n, double guess){
-	return (n/guess + guess) / 2;
+	double guessNum = (n/guess + guess) / 2;
+	if(Math.abs(n - guessNum*guessNum)/n < 0.000000001){
+	    return guessNum;
+	}
+	return better(n , guessNum);
     }
     public static void main(String[] args){
 	System.out.println(sqrt(100)); //10
 	System.out.println(sqrt(4)); //2
 	System.out.println(sqrt(200)); //14.14
 	System.out.println(sqrt(12345)); //111.11
+	System.out.println(sqrt(-100)); //exception
     }
 }
