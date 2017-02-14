@@ -9,7 +9,7 @@ public class QueenBoard{
 		board[r][c] = 0;
 	    }
 	}
-	solutionCount = 0;
+	solutionCount = -1;
     }
 
     public boolean solve(){
@@ -86,12 +86,13 @@ public class QueenBoard{
 	
 	
     public int getSolutionCount(){	
-	if(board.length == 1){
-	    return 1; }
-	if(board.length == 2 || board.length == 3){
-	    return 0; }
-	countH(0);
 	return solutionCount;
+    }
+
+    public void countSolutions(){
+	if(solutionCount == -1){
+	    solutionCount = 0; }
+	countH(0);
     }
 
     public void countH(int c){
@@ -124,9 +125,10 @@ public class QueenBoard{
     }
 
     public static void main(String[] args){
-	QueenBoard test = new QueenBoard(10);
+	QueenBoard test = new QueenBoard(9);
 	//test.solve();
 	//System.out.println(test);
+	test.countSolutions();
 	System.out.println(test.getSolutionCount());
     }
 }
