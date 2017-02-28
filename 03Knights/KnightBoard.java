@@ -63,7 +63,7 @@ public class KnightBoard{
     }
 
     public static void main(String[] args){
-	KnightBoard hi = new KnightBoard(7, 8);
+	KnightBoard hi = new KnightBoard(10, 10);
 	hi.solve();
 	System.out.println(hi);
     }
