@@ -5,15 +5,17 @@ public class Recursion{
     public static double sqrt(double n){
 	if(n < 0){
 	    throw new IllegalArgumentException();
+	}if(n==0){
+	    return 0;
 	}else{
 	    return better(n, 1.0);
 	}
     }
     private static double better(double n, double guess){
-	double guessNum = (n/guess + guess) / 2;
-	if(Math.abs(n - guessNum*guessNum)/n < 0.000000001){
-	    return guessNum;
+	if(Math.abs((n - guess*guess)/n) < 0.000000001){
+	    return guess;
 	}
+	double guessNum = (n/guess + guess) / 2;
 	return better(n , guessNum);
     }
     public static void main(String[] args){
