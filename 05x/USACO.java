@@ -26,16 +26,13 @@ public class USACO{
 		}
 	    }
 
-	    //toString
-	    print(R, C, E, N, lake);
-	    
 	    while(inf.hasNextLine()){
 		String instr = inf.nextLine();
 		Scanner instrS = new Scanner(instr);
 		int R_s = instrS.nextInt();
 		int C_s = instrS.nextInt();
 		int D_s = instrS.nextInt();
-		System.out.println(R_s + " " + C_s + " " + D_s);
+		//System.out.println(R_s + " " + C_s + " " + D_s);
 		int highest = lake[R_s-1][C_s-1];
 		for(int row = R_s-1; row<R_s+2; row++){
 		    for(int col = C_s-1; col<C_s+2; col++){
@@ -52,7 +49,6 @@ public class USACO{
 			}
 		    }
 		}
-		print(R, C, E, N, lake);
 	    }
 
 	    int totalDepth = 0;
@@ -72,17 +68,6 @@ public class USACO{
 	return -1;
     }
 
-    public void print(int R, int C, int E, int N, int[][] lake){
-	System.out.println(R + " " + C + " " + E + " " + N + "\n");
-	for(int rR = 0; rR<lake.length; rR++){
-	    for(int cC = 0; cC<lake[0].length; cC++){
-		System.out.print(lake[rR][cC] + " ");
-	    }
-	    System.out.println("");
-	}
-    }
-	
-	
     public int silver(String filename){
 	try{
 	    File infile = new File(filename);
@@ -141,8 +126,6 @@ public class USACO{
 			}
 		    }
 		}
-		toPrint(past2);
-		toPrint(past1);
 	    }
 	    if(T%2 == 0){
 		return past2[R2][C2];
@@ -156,18 +139,6 @@ public class USACO{
 	}
 	return -1;
     }
-
-    public void toPrint(int[][] past1){
-	//System.out.println(N + " " + M + " " + T);
-	for(int r = 0; r < past1.length; r++){
-	    for(int c = 0; c < past1[0].length; c++){
-		System.out.print(past1[r][c] + " ");
-	    }
-	    System.out.println("");
-	}
-	System.out.println("");
-    }
-	
 
     public int findMoves(int r, int c, int[][] pasture){
 	int total = 0;
@@ -186,8 +157,28 @@ public class USACO{
 
     public static void main(String[] args){
 	USACO bloop = new USACO();
-	//System.out.println(bloop.bronze("infile1.txt")); //342144
-	System.out.println(bloop.silver("ctravel.in"));
+	// System.out.println(bloop.bronze("infile1.txt")); //342144
+	// System.out.println(bloop.bronze("makelake.2.in")); //102762432
+	// System.out.println(bloop.bronze("makelake.3.in")); //1058992704
+	// System.out.println(bloop.bronze("makelake.4.in")); //753121152
+	// System.out.println(bloop.bronze("makelake.5.in")); //1028282688
+	// System.out.println(bloop.bronze("makelake.6.in")); //72207936
+	// System.out.println(bloop.bronze("makelake.7.in")); //265508928
+	// System.out.println(bloop.bronze("makelake.8.in")); //776609856
+	// System.out.println(bloop.bronze("makelake.9.in")); //2098830528
+	// System.out.println(bloop.bronze("makelake.10.in")); //211201344
+
+	// System.out.println(bloop.silver("ctravel.1.in"));//1
+	// System.out.println(bloop.silver("ctravel.2.in"));//74
+	// System.out.println(bloop.silver("ctravel.3.in"));//6435
+	// System.out.println(bloop.silver("ctravel.4.in"));//339246
+	// System.out.println(bloop.silver("ctravel.5.in"));//0
+	// System.out.println(bloop.silver("ctravel.6.in"));//14396412
+	// System.out.println(bloop.silver("ctravel.7.in"));//1533810
+	// System.out.println(bloop.silver("ctravel.8.in"));//456055
+	// System.out.println(bloop.silver("ctravel.9.in"));//28
+	// System.out.println(bloop.silver("ctravel.10.in"));//1321670
+
     }
 
     
