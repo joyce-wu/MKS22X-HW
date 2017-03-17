@@ -2,38 +2,52 @@ import java.util.*;
 
 public class Quick{
     public static int part(int[] data, int start, int end){
-	int[] temp = new int[data.length];
+	int[] temp = new int[end-start+1];
+	for(int i = 0; i < temp.length; i++){
+	    temp[i] = data[start+i];
+	}
 	Random rand = new Random();
-	int randI = (rand.nextInt(end-start)+1)+start;
-	System.out.println(randI);
-	int num = data[randI];
-	System.out.println(num);
-	int s = start;
-	int e = end;
+	int randI = rand.nextInt(end-start)+1;
+	int num = temp[randI];
+	int s = 0;
+	int e = temp.length-1;
 	for(int i = 0; i < temp.length; i++){
 	    if(i != randI){
-		if(i < start || i > end){
-		    temp[i] = data[i];
+		if(temp[i] > num){
+		    data[e+start] = temp[i];
+		    e--;
 		}else{
-		    if(data[i] > num){
-			temp[e] = data[i];
-			e--;
-		    }else{
-			temp[s] = data[i];
-			s++;
-		    }
+		    data[s+start] = temp[i];
+		    s++;
 		}
-		System.out.println(Arrays.toString(temp));
-
 	    }
+	  
 	}
-	temp[s] = num;
-	System.out.println(Arrays.toString(temp));
-	return s;
+	data[e+start] = num;
+	return e+start;
     }
 
+    public static int quickselect(int[] data, int k){
+	return quickSelectH(data, k, 0, data.length-1);
+    }
+
+    public static int quickSelectH(int[] data, int k, int start, int end){
+	int n = part(data, start, end);
+	if(k == n){
+	    return data[n];
+	}else{
+	    if(k < n){
+		return quickSelectH(data, k, 0, n-1);
+	    }
+	    return quickSelectH(data, k, n+1, data.length-1);
+	}
+    }
+	    
+
     public static void main(String[] args){
-	int[] ary = {4, 3, 5, 77, 100, 2, 41, 32, 45, 21, 11};
-	System.out.println(part(ary, 0, 5));
+	int[] ary = {77, 100, 2, 41, 0};
+	int[] ary2 = {99, 99, 99, 0, 2, 4, 3, 1, 99, 99, 99};
+	System.out.println(quickselect(ary2, 3));
+	System.out.println(quickselect(ary, 2));
     }
 }
