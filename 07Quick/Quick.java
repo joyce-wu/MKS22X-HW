@@ -1,35 +1,23 @@
 import java.util.*;
 
 public class Quick{
-    public static int part(int[] data, int start, int end){
-	System.out.println(Arrays.toString(data));
-	Random rand = new Random();
-	int randI = rand.nextInt(end-start) + 1 + start;
-	int num = data[randI];
-    	System.out.println("randI " + randI + " num " + num);
+    public static int part(int[] data, int start, int end){	
+    	Random rand = new Random();
+    	int randI = rand.nextInt(end-start) + 1 + start;
+    	int num = data[randI];
     	swap(data, randI, end);
-    	System.out.println(Arrays.toString(data));
-	int b = end-1;
-	int a = start;
-	while(a <= b){
-	    if(data[a] < num){
-		a++;
-	    }else if(data[a] >= num){
-		swap(data, a, b);
-		b--;
-	    }
-	    // System.out.println("a " + a + " b " + b);
-	    System.out.println(Arrays.toString(data));
-	}
-	swap(data, end, a);
-	System.out.println(Arrays.toString(data));
-	return a;
-    }
-
-    public static void swap(int[] data, int orig, int replace){
-	int temp = data[orig];
-	data[orig] = data[replace];
-	data[replace] = temp;
+    	int b = end-1;
+    	int a = start;
+    	while(a <= b){
+    	    if(data[a] < num){
+    		a++;
+    	    }else if(data[a] >= num){
+    		swap(data, a, b);
+    		b--;
+    	    }
+    	}
+    	swap(data, end, a);
+    	return a;
     }
     
     // PARTITION: using separate array
@@ -58,6 +46,12 @@ public class Quick{
     // 	return e+start;
     // }
 
+    public static void swap(int[] data, int orig, int replace){
+	    int temp = data[orig];
+	    data[orig] = data[replace];
+	    data[replace] = temp;
+	}
+    
     public static int quickselect(int[] data, int k){
 	return quickSelectH(data, k, 0, data.length-1);
     }
@@ -74,26 +68,55 @@ public class Quick{
 	}
     }
 
-    public static int[] quickSort(int[] data){
-	return quickSortH(data, 0, data.length-1);
+    public static void quickSort(int[] data){
+	quickSortH(data, 0, data.length-1);
     }
 
-    public static void quickSortH(int[] data, int left, int right){
-	if(left == right){
+    public static void quickSortH(int[] data, int start, int end){
+	if(start == end){
 	    return;
-	}if(left < right){
-	    p = part(data, left, right);
-	    quickSortH(data, 0, left-1);
-	    quickSortH(data, left+1, right);
 	}
+	//System.out.println("start " + start + " end " + end);
+    	Random rand = new Random();
+	int randI = rand.nextInt(end-start) + 1 + start;
+	int num = data[randI];
+	swap(data, randI, end);
+	int i = start;
+	int lt = start;
+	int gt = end;
+	while(i <= gt){
+	    if(data[i] == num){
+		i++;
+	    }else if(data[i] < num){
+		swap(data, i, lt);
+		lt++;
+		i++;
+	    }else{
+		swap(data, i, gt);
+		gt--;
+	    }
+	}
+	//System.out.println(Arrays.toString(data));
+	if(lt != 0){
+	    quickSortH(data, start, lt-1);
+	}
+	quickSortH(data, gt, end);
     }
-		
-	    
 
     public static void main(String[] args){
 	int[] ary = {77, 100, 2, 41, 0};
 	int[] ary2 = {99, 99, 99, 0, 2, 4, 3, 1, 99, 99, 99};
-	//System.out.println(part(ary2, 3, 7));
-	System.out.println(part(ary, 0, 4));
+	int[] ary3 = {-44, 75, 100, 100, 22, 34, 51, 78, 42, 109, 88, 100, 99, 99, 201, 314, 57, 89, 100, -7, -11};
+	int[] randomA = new int[5000];
+	Random ran = new Random();
+	for(int i = 0; i < 5000; i++){
+	    randomA[i] = ran.nextInt(5000) + 1;
+	}
+	//System.out.println(Arrays.toString(randomA));
+	//quickSort(randomA);
+	//System.out.println(Arrays.toString(randomA));
+	//quickSort(ary);
+	//System.out.println(Arrays.toString(ary));
+	//System.out.println(partMax(ary2, 3, 7));
     }
 }
