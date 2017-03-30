@@ -8,12 +8,16 @@ public class MyLinkedList{
     }
     
     public boolean add(int value){
-	LNode current = start;
-	for(int i = 0; i < size; i++){
-	    current = current.next;
+	if(size == 0){
+	    start = new LNode(value);
+	}else{
+	    LNode current = start;
+	    for(int i = 0; i < size-1; i++){
+		current = current.next;
+	    }
+	    LNode a = new LNode(value);
+	    current.next = a;
 	}
-	LNode a = new LNode(value);
-	current.next = a;
 	size++;
 	return true;
     }
@@ -23,6 +27,9 @@ public class MyLinkedList{
     }
 
     public int get(int index){
+	if(index < 0 || index >= size()){
+	    throw new IndexOutOfBoundsException();
+	}
 	LNode current = start;
 	for(int i = 0; i < size; i++){
 	    if(i == index){
@@ -50,20 +57,37 @@ public class MyLinkedList{
     public String toString(){
 	if(size == 0){
 	    return "[]";
+	}if(size == 1){
+	    return "[" + start.value + "]";
 	}
 	String ans = "[";
 	LNode current = start;
 	ans += current.value + ", ";
-	for(int i = 0; i < size-1; i++){
+	for(int i = 0; i < size-2; i++){
 	    current = current.next;
 	    ans += current.value + ", "; 
 	}
 	current = current.next;
 	ans += current.value + "]";
-	return ans;
+     	return ans;
     }
 
-   public class LNode{
+    public int indexOf(int value){
+	LNode current = start;
+	for(int i = 0; i < size; i++){
+	    if(current.value == value){
+		return i;
+	    }else{
+		current = current.next;
+	    }
+	}
+	return -1;
+    }
+
+    // public void add(int index, int value){
+    //}
+
+    public class LNode{
 	int value;
 	LNode next;
 	public LNode(int val){
@@ -75,4 +99,16 @@ public class MyLinkedList{
 	    next = node;
 	}
     }
+
+    public static void main(String[] args){
+	MyLinkedList hi = new MyLinkedList();
+	hi.add(7);
+	hi.add(10);
+	hi.add(11);
+	for(int i = 0; i<15; i++){
+	    hi.add(i);
+       }
+       System.out.println(hi.indexOf(10));
+       System.out.println(hi.toString());
+   }
 }
