@@ -69,7 +69,11 @@ public class Quick{
     }
 
     public static void quickSort(int[] data){
-	quickSortH(data, 0, data.length-1);
+	if(data.length == 0){
+	    return;
+	}else{
+	    quickSortH(data, 0, data.length-1);
+	}
     }
 
     public static void quickSortH(int[] data, int start, int end){
@@ -112,6 +116,12 @@ public class Quick{
 	for(int i = 0; i < 5000; i++){
 	    randomA[i] = ran.nextInt(5000) + 1;
 	}
+	int[] h = {};
+	int[] bye = {1};
+	quickSort(h);
+	quickSort(bye);
+	System.out.println(Arrays.toString(bye));
+	System.out.println(Arrays.toString(h));
 	//System.out.println(Arrays.toString(randomA));
 	//quickSort(randomA);
 	//System.out.println(Arrays.toString(randomA));
