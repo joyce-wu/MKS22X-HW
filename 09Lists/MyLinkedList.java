@@ -84,8 +84,45 @@ public class MyLinkedList{
 	return -1;
     }
 
-    // public void add(int index, int value){
-    //}
+    public void add(int index, int value){
+    	if(index == 0){
+    	    LNode old = start;
+    	    start.value = value;
+    	    start.next = old;
+	    
+    	}
+    	LNode current = start;
+    	for(int i = 0; i < size; i++){
+    	    if(i == index-1){
+		LNode old = current;
+		current = current.next;
+		LNode newL = new LNode(value);
+		old.next = newL;
+		newL.next = current;		
+    	    }
+	}
+    }
+
+    public int remove(int index){
+	if(index == 0){
+	    int oldVal = start.value;
+	    LNode nextL = start.next;
+	    start.value = nextL.value;
+	    start.next = nextL.next;
+	    size--;
+	}else{
+	    LNode current = start;
+	    for(int i = 0; i < size; i++){
+		if(i == index-1){
+		    LNode oldL = current;
+		    int oldVal = current.next.value;
+		    current = current.next.next;
+		    oldL.next = current;
+		}
+	    }
+	}
+	return oldVal;		    
+    }
 
     public class LNode{
 	int value;
