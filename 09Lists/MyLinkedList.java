@@ -1,12 +1,41 @@
-public class MyLinkedList{
+import java.util.*;
+
+public class MyLinkedList implements Iterable<Integer>{
     LNode start, tail;
     int size;
 
+    public class LinkedListIterator implements Iterator<Integer>{
+	private MyLinkedList list;
+	private int index;
+
+	public LinkedListIterator(MyLinkedList list){
+	    this.list = list;
+	}
+	public boolean hasNext(){
+	    return index < list.size();
+	}
+	public Integer next(){
+	    if(hasNext()){
+		index++;
+		return list.get(index-1);
+	    }else{
+		throw new NoSuchElementException();
+	    }
+	}
+	public void remove(){
+	    throw new UnsupportedOperationException();
+	}
+    }
+    
     public MyLinkedList(){
     }
     
     public int size(){
 	return size;
+    }
+
+    public Iterator<Integer> iterator(){
+	return new LinkedListIterator(this);
     }
 
     private LNode getNthNode(int n){
@@ -175,11 +204,8 @@ public class MyLinkedList{
 	hi.add(20001);
 	hi.add(20001);
 	System.out.println(hi.toString());
-	hi.add(0, 44);
-	System.out.println(hi.toString());
-	hi.add(8, 10000000);
-	System.out.println(hi.toString());
-	hi.add(10, -22);
-	System.out.println(hi.toString());
+	for(int hello:hi){
+	    System.out.println(hello);
+	}
     }
 }
