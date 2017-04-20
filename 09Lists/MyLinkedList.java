@@ -67,7 +67,10 @@ public class MyLinkedList implements Iterable<Integer>{
     }
     
     public void remove(LNode target){
-	if(start == target){
+	if(target.prev == null && target.next == null){
+	    start = null;
+	    tail = null;
+	}else if(start == target){
 	    start = start.next;
 	    start.prev = null;
 	}else if(tail == target){
