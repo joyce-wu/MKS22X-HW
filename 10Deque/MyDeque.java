@@ -1,3 +1,5 @@
+import java.util.*;
+
 public class MyDeque{
     String[] ary;
     int size;
@@ -5,22 +7,26 @@ public class MyDeque{
     
     public MyDeque(){
 	ary = new String[10];
+	size = 0;
     }
 
     private void resize(){
 	String[] newAry = new String[size*2];
-	for(int i = 0; i < ary.length; i++){
-	    newAry[i] = ary[i];
+	for(int i = 0, j = front; j < size+front; j++, i++){
+	    newAry[i] = ary[j % ary.length];
 	}
 	ary = newAry;
-	size *= 2;
+	front = 0;
+	back = size-1;
     }
 
     public void addFirst(String s){
-	if(s.equals(null)){
+	if(s == null){
 	    throw new NullPointerException();
 	}if(size == ary.length){
 	    resize();
+	}if(size == 0){
+	    ary[0] = s;
 	}else if(front == 0){
 	    ary[ary.length-1] = s;
 	    front = ary.length-1;
@@ -32,17 +38,14 @@ public class MyDeque{
     }
 
     public void addLast(String s){
-	if(s.equals(null)){
+	if(s == null){
 	    throw new NullPointerException();
 	}if(size == ary.length){
 	    resize();
-	}else if(back == ary.length-1){
-	    ary[0] == s;
-	    back = 0;
-	}else{
-	    ary[back+1] = s;
-	    back -= 1;
+	}if(size != 0){
+	    back = (back+1) % ary.length;
 	}
+	ary[back] = s;
 	size++;
     }
 
@@ -51,11 +54,7 @@ public class MyDeque{
 	    throw new NoSuchElementException();
 	}
 	String org = ary[front];
-	if(front == ary.length-1){
-	    front = 0;
-	}else{
-	    front += 1;
-	}
+	front = (front + 1) % ary.length;
 	size--;
 	return org;
     }
@@ -87,4 +86,14 @@ public class MyDeque{
 	}
 	return ary[back];
     }
+
+    public String toString(){
+	String ans = "[";
+	for(int i = 0; i < ary.length-1; i++){
+	    ans += ary[i] + ", ";
+	}
+	ans += ary[ary.length-1] + "]";
+	return ans;
+    }
+    
 }
