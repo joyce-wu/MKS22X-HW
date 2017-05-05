@@ -4,6 +4,7 @@ public class MyHeap{
 
     private ArrayList<String> heap;
     private int order;
+    private int size;
     
     public MyHeap(){
 	heap = new ArrayList<String>();
@@ -21,13 +22,15 @@ public class MyHeap{
     }
 
     public void add(String s){
-	heap.set(heap.size(), s);
+	heap.add(s);
 	pushUp();
+	size++;
     }
 
     public String remove(){
 	String old = heap.set(1, heap.get(heap.size()-1));
 	pushDown();
+	size--;
 	return old;
     }
 
@@ -36,13 +39,14 @@ public class MyHeap{
     }
 
     private void swap(int a, int b){
-	String temp = heap.set(a, heap.get(b));
-	heap.set(b, temp);
+	String temp = heap.get(b);
+	heap.set(b, heap.get(a));
+	heap.set(a, temp);
     }
 
     private void pushUp(){
 	int current = heap.size() - 1;
-	while(current > 0 && heap.get(current/2).compareTo(heap.get(current)) > 0){
+	while(current/2 > 0 && heap.get(current/2).compareTo(heap.get(current)) < 0){
 	    swap(current, current/2);
 	    current /= 2;
 	}
@@ -50,7 +54,7 @@ public class MyHeap{
 
     private void pushDown(){
 	int current = 1;
-	while(current < heap.size() && (heap.get(current * 2).compareTo(heap.get(current)) < 0 || heap.get(current * 2 + 1).compareTo(heap.get(current)) < 0)){
+	while(current * 2 < heap.size() && (heap.get(current * 2).compareTo(heap.get(current)) < 0 || current * 2 + 1 < heap.size() && heap.get(current * 2 + 1).compareTo(heap.get(current)) < 0)){
 	    if(heap.get(current * 2).compareTo(heap.get(current * 2 + 1)) < 0){
 		swap(current, current * 2);
 		current = current * 2;
@@ -59,6 +63,35 @@ public class MyHeap{
 		current = current * 2 + 1;
 	    }
 	}
+    }
+
+    public String toString(){
+	String ans = "";
+	for(int i = 1; i <= size; i++){
+	    ans += heap.get(i) + " ";
+	}
+	return ans;
+    }
+
+    public static void main(String[] args){
+	MyHeap hello = new MyHeap();
+	hello.add("Hip");
+	System.out.println(hello);
+
+	hello.add("sup");
+	System.out.println(hello);
+
+	hello.add("Sup");
+	//System.out.println(hello);
+
+	hello.add("tangerines");
+	hello.add("temple");
+	hello.add("what");
+	System.out.println(hello);
+	//hello.remove();
+	//hello.remove();
+	//hello.remove();
+	//System.out.println(hello);
     }
 	    
 }
