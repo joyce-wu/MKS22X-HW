@@ -34,7 +34,7 @@ public class MyHeap{
     }
 
     public String remove(){
-	String old = heap.set(1, size-1);
+	String old = heap.set(1, heap.get(size-1));
 	size--;
 	pushDown();
 	return old;
@@ -61,7 +61,7 @@ public class MyHeap{
     private void pushDown(){
 	int current = 1;
 	while(current * 2 <= size){
-	    if(heap.get(current*2).compareTo(heap.get(current*2+1)*order > 0)){
+	    if(heap.get(current*2).compareTo(heap.get(current*2+1))*order > 0){
 		if(heap.get(current).compareTo(heap.get(current*2))*order < 0){
 		    swap(current, current*2);
 		    current = current * 2;
