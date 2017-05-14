@@ -27,6 +27,7 @@ public class MyHeap{
 	size++;
 	//System.out.println("add: " + toString());
 	pushUp();
+	pushDown();
 	//System.out.println("add pushUp: " + toString());
     }
 
@@ -35,6 +36,7 @@ public class MyHeap{
 	size--;
 	//System.out.println(toString());
 	pushDown();
+	pushUp();
 	return old;
     }
 
