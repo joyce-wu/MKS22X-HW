@@ -9,11 +9,13 @@ public class MyHeap{
     public MyHeap(){
 	heap = new ArrayList<String>();
 	heap.add("");
+	size = 0;
     }
 
     public MyHeap(boolean bool){
 	heap = new ArrayList<String>();
 	heap.add("");
+	size = 0;
 	if(bool){
 	    order = 1;
 	}else{
@@ -21,21 +23,25 @@ public class MyHeap{
 	}
     }
 
+    public int size(){
+	return size;
+    }
+
     public void add(String s){
 	heap.add(s);
-	pushUp();
 	size++;
+	pushUp();
     }
 
     public String remove(){
-	String old = heap.set(1, heap.get(heap.size()-1));
-	pushDown();
+	String old = heap.set(1, size-1);
 	size--;
+	pushDown();
 	return old;
     }
 
     public String peek(){
-	return heap.get((heap.size()-1)/2);
+	return heap.get(1);
     }
 
     private void swap(int a, int b){
@@ -45,8 +51,8 @@ public class MyHeap{
     }
 
     private void pushUp(){
-	int current = heap.size() - 1;
-	while(current/2 > 0 && heap.get(current/2).compareTo(heap.get(current)) < 0){
+	int current = size;
+	while(current > 1 && order * heap.get(current/2).compareTo(heap.get(current)) > 0){
 	    swap(current, current/2);
 	    current /= 2;
 	}
@@ -54,13 +60,27 @@ public class MyHeap{
 
     private void pushDown(){
 	int current = 1;
-	while(current * 2 < heap.size() && (heap.get(current * 2).compareTo(heap.get(current)) < 0 || current * 2 + 1 < heap.size() && heap.get(current * 2 + 1).compareTo(heap.get(current)) < 0)){
-	    if(heap.get(current * 2).compareTo(heap.get(current * 2 + 1)) < 0){
-		swap(current, current * 2);
-		current = current * 2;
+	while(current * 2 <= size){
+	    if(heap.get(current*2).compareTo(heap.get(current*2+1)*order > 0)){
+		if(heap.get(current).compareTo(heap.get(current*2))*order < 0){
+		    swap(current, current*2);
+		    current = current * 2;
+		}else if(heap.get(current).compareTo(heap.get(current*2+1)) * order < 0){
+		    swap(current, current*2+1);
+		    current = current*2+1;
+		}else{
+		    return;
+		}
 	    }else{
-		swap(current, current * 2 + 1);
-		current = current * 2 + 1;
+		if(heap.get(current).compareTo(heap.get(current*2+1)) * order < 0){
+		    swap(current, current*2+1);
+		    current = current*2+1;
+		}else if(heap.get(current).compareTo(heap.get(current*2)) * order < 0){
+		    swap(current, current*2);
+		    current = current * 2;
+		}else{
+		    return;
+		}
 	    }
 	}
     }
