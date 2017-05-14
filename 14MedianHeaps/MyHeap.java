@@ -8,6 +8,7 @@ public class MyHeap{
     public MyHeap(){
 	heap = new ArrayList<Integer>();
 	heap.add(0);
+	order = 1;
     }
 
     public MyHeap(boolean bool){
@@ -21,20 +22,27 @@ public class MyHeap{
     }
 
     public void add(int s){
+	//System.out.println(s);
 	heap.add(s);
-	pushUp();
 	size++;
+	//System.out.println("add: " + toString());
+	pushUp();
+	//System.out.println("add pushUp: " + toString());
     }
 
     public int remove(){
-	int old = heap.set(1, heap.get(heap.size()-1));
-	pushDown();
+	int old = heap.set(1, heap.remove(size));
 	size--;
+	//System.out.println(toString());
+	pushDown();
 	return old;
     }
 
     public int peek(){
-	return heap.get((heap.size()-1)/2);
+	if(size < 1){
+	    throw new NoSuchElementException();
+	}
+	return heap.get(1);
     }
 
     private void swap(int a, int b){
@@ -44,38 +52,80 @@ public class MyHeap{
     }
 
     private void pushUp(){
-	int current = heap.size() - 1;
-	while(current/2 > 0 && order * heap.get(current/2) < heap.get(current)){
+	int current = size;
+	while(current > 1 && heap.get(current/2).compareTo(heap.get(current))*order < 0){
+	    //System.out.println("current: " + current);
+	    //System.out.println("push up" + toString());
 	    swap(current, current/2);
-	    current /= 2;
+	    //System.out.println("push up after swap" + toString());
+	    current = current/ 2;
 	}
     }
 
     private void pushDown(){
 	int current = 1;
-	while(current * 2 < heap.size() && order * heap.get(current * 2) > heap.get(current) || order * current * 2 + 1 < heap.size() && order * heap.get(current*2+1) > heap.get(current)){
-	    if(order * heap.get(current * 2) > heap.get(current * 2 + 1)){
-		swap(current, current * 2);
-		current = current * 2;
+	if(size == 2 && heap.get(1).compareTo(heap.get(2)) * order < 0){
+	    swap(1, 2);
+	    return;
+	}
+	while(current * 2 + 1 <= size){
+	    if(heap.get(current*2).compareTo(heap.get(current*2+1))*order > 0){
+		if(heap.get(current).compareTo(heap.get(current*2))*order < 0){
+		    swap(current, current*2);
+		    current = current * 2;
+		}else if(heap.get(current).compareTo(heap.get(current*2+1)) * order < 0){
+		    swap(current, current*2+1);
+		    current = current*2+1;
+		}else{
+		    return;
+		}
 	    }else{
-		swap(current, current * 2 + 1);
-		current = current * 2 + 1;
+		if(heap.get(current).compareTo(heap.get(current*2+1)) * order < 0){
+		    swap(current, current*2+1);
+		    current = current*2+1;
+		}else if(heap.get(current).compareTo(heap.get(current*2)) * order < 0){
+		    swap(current, current*2);
+		    current = current * 2;
+		}else{
+		    return;
+		}
 	    }
 	}
     }
-
-    public int size(){
-	return heap.size();
+	
+	/**
+	while(current * 2 <= size){
+	    //System.out.println("push down: " + toString());
+	    if(current == size/2 && size%2 == 0){
+		if(heap.get(current*2) > order*heap.get(current)){
+		    swap(current, current * 2);
+		    current = current * 2;
+		}
+	    }else if(heap.get(current*2) > order*heap.get(current) ||
+		     (current*2+1 < size &&
+		      heap.get(current*2+1) > order*heap.get(current))){	    
+		if(heap.get(current*2) > order * heap.get(current*2+1)){
+		    swap(current, current * 2);
+		    current = current * 2;
+		}else{
+		    swap(current, current * 2 + 1);
+		    current = current * 2 + 1;
+		}
+	    }else{
+		break;
+	    }
+	}
     }
-
-    public int get(int i){
-	return heap.get(i);
+	**/
+   
+    public int size(){
+	return size;
     }
     
     public String toString(){
 	String ans = "";
 	for(int i = 1; i <= size; i++){
-	    ans += heap.get(i) + " ";
+	    ans += "(" + i + ")" + heap.get(i) + " ";
 	}
 	return ans;
     }

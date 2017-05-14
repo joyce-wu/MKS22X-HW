@@ -8,7 +8,16 @@ public class RunningMedian{
     }
 
     public double getMedian(){
-	return lessThan.peek() + moreThan.peek() / 2.0;
+	//System.out.println("lessThan: " + lessThan.toString());
+	//System.out.println("moreThan: " + moreThan.toString());
+	if(lessThan.size() == moreThan.size()){
+	    median = (lessThan.peek() + moreThan.peek()) / 2.0;
+	}else if(lessThan.size() > moreThan.size()){
+	    median = lessThan.peek();
+	}else{
+	    median = moreThan.peek();
+	}
+	return median;
     }
     
     public void add(int n){
@@ -21,7 +30,7 @@ public class RunningMedian{
 	}
 	if(lessThan.size() - moreThan.size() >= 2){
 	    moreThan.add(lessThan.remove());
-	}else if(lessThan.size() - moreThan.size() >= -2){
+	}else if(moreThan.size() - lessThan.size() >= 2){
 	    lessThan.add(moreThan.remove());
 	}
     }
