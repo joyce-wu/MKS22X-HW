@@ -31,12 +31,14 @@ public class MyHeap{
 	heap.add(s);
 	size++;
 	pushUp();
+	pushDown();
     }
 
     public String remove(){
 	String old = heap.set(1, heap.get(size-1));
 	size--;
 	pushDown();
+	pushUp();
 	return old;
     }
 
@@ -60,7 +62,11 @@ public class MyHeap{
 
     private void pushDown(){
 	int current = 1;
-	while(current * 2 <= size){
+	if(size == 2 && heap.get(1).compareTo(heap.get(2)) * order < 0){
+	    swap(1, 2);
+	    return;
+	}
+	while(current * 2 + 1 <= size){
 	    if(heap.get(current*2).compareTo(heap.get(current*2+1))*order > 0){
 		if(heap.get(current).compareTo(heap.get(current*2))*order < 0){
 		    swap(current, current*2);
