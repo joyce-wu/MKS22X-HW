@@ -1,0 +1,14 @@
+public class MazeSolver{
+    Maze board;
+
+    public MazeSolver(String filename){
+	board = new Maze(filename);
+    }
+    
+    public void solve(){
+    }
+
+    public void solve(int i){
+    }
+
+}
