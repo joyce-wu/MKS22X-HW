@@ -68,7 +68,7 @@ public class Quick{
 	}
     }
 
-    public static void quickSort(int[] data){
+    public static void quicksort(int[] data){
 	if(data.length == 0){
 	    return;
 	}else{
@@ -118,8 +118,8 @@ public class Quick{
 	}
 	int[] h = {};
 	int[] bye = {1};
-	quickSort(h);
-	quickSort(bye);
+	quicksort(h);
+	quicksort(bye);
 	System.out.println(Arrays.toString(bye));
 	System.out.println(Arrays.toString(h));
 	//System.out.println(Arrays.toString(randomA));
