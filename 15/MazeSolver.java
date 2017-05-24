@@ -3,9 +3,11 @@ import java.util.*;
 public class MazeSolver{
     Maze board;
     Frontier frontier;
+    boolean aStar;
 
     public MazeSolver(String filename){
 	board = new Maze(filename);
+	System.out.println(board);
     }
     
     public void solve(){
@@ -13,78 +15,81 @@ public class MazeSolver{
     }
 
     public void solve(int i){
+	aStar = false;
 	if(i == 0){
-	    FrontierStack frontier = new FrontierStack();
+	    frontier = new FrontierStack();
 	}else if(i == 1){
-	    FrontierQueue frontier = new FrontierQueue();
+	    frontier = new FrontierQueue();
 	}else if(i == 2){
-	    FrontierPriorityQueue frontier = new FrontierPriorityQueue();
+	    frontier = new FrontierPriorityQueue();
 	}else if(i == 3){
-	    FrontierPriorityQueue frontier = new FrontierPriorityQueue();
-	    board.getStart().setAStar(true);
+	    frontier = new FrontierPriorityQueue();
+	    aStar = true;
 	}
-	
+	System.out.println(board.getStart());
 	frontier.add(board.getStart());
-	
 	while(frontier.hasNext()){
 	    Location current = frontier.next();
-	    
-	    if(distToGoal(current) == 0){
-		while(current.hasPrevious()){
-		    board.set(current.row(), current.col(), '@');
-		    current = current.previous();
-		}
-		board.set(board.getStart().row(), board.getStart().col(), '@');
-		board.set(board.getEnd().row(), board.getEnd().col(), '@');
-		break;
-	    }
-	    
 	    board.set(current.row(), current.col(), '.');
-	    for(int n = 1; n <= 4; n++){
-		int r = rowCheck(current, n);
-		int c = colCheck(current, n);
-		if(isValid(r, c)){
-		    frontier.add(new Location(r, c, current, distToStart(current), distToGoal(current)));
-		    board.set(r, c, '?');
+	    
+	    if(distToGoal(current.row(), current.col()) == 0){
+		while(current.hasPrevious()){
+		    current = current.previous();
+		    board.set(current.row(), current.col(), '@');
+		}
+		System.out.println(board);
+		return;
+	    }
+
+	    for(Location loc: getNeighbors(current)){
+		if(loc != null){
+		    frontier.add(loc);
+		    board.set(loc.row(), loc.col(), '?');
 		}
 	    }
+	    board.clearTerminal();
+	    System.out.println(board.toString(100));
 	}
     }
 
-    private boolean isValid(int r, int c){
-	return r > 0 && r < board.getMaxRows() && c > 0 && c < board.getMaxCols() && board.get(r, c) == ' ';
-    }
-    
-    private int rowCheck(Location loc, int i){
-	if(i == 0){
-	    return loc.row() + 1;
-	}if (i == 0){
-	    return loc.row() - 1;
+    public ArrayList<Location> getNeighbors(Location loc){
+	ArrayList<Location> ans = new ArrayList<Location>();
+	int r = loc.row();
+	int c = loc.col();
+	if(r + 1 < board.getMaxRows() && board.get(r + 1, c) == ' '){
+	    ans.add(new Location(r + 1, c, loc, distToStart(r+1, c),
+				 distToGoal(r+1, c), aStar));
+	}if(r - 1 >= 0 && board.get(r - 1, c) == ' '){
+	    ans.add(new Location(r - 1, c, loc, distToStart(r-1, c),
+				 distToGoal(r-1, c), aStar));
+	}if(c + 1 < board.getMaxCols() && board.get(r, c + 1) == ' '){
+	    ans.add(new Location(r, c + 1, loc, distToStart(r, c+1),
+				 distToGoal(r, c+1), aStar));
+	}if(c - 1 >= 0 && board.get(r, c - 1) == ' '){
+	    ans.add(new Location(r, c - 1, loc, distToStart(r, c-1),
+				 distToGoal(r, c-1), aStar));
 	}
-	return loc.row();
+	return ans;
     }
 
-    private int colCheck(Location loc, int i){
-	if(i == 3){
-	    return loc.col() + 1;
-	}if(i == 4){
-	    return loc.col() - 1;
-	}
-	return loc.col();
+    public int distToStart(int r, int c){
+	return Math.abs(board.getStart().row() - r) +
+	    Math.abs(board.getStart().col() - c);
     }
-	
-    private int distToStart(Location loc){
-	return Math.abs(board.getStart().row() - loc.row()) +
-	    Math.abs(board.getStart().col() - loc.col());
-    }
-    
-    private int distToGoal(Location loc){
-	return Math.abs(board.getEnd().row() - loc.row()) +
-	    Math.abs(board.getEnd().col() - loc.col());
+
+    public int distToGoal(int r, int c){
+	return Math.abs(board.getEnd().row() - r) +
+	    Math.abs(board.getEnd().col() - c);
     }
 
     public String toString(){
-	return board.toString();
-    } 
+	return board.toString(100);
+    }
+
+    public static void main(String[] args){
+	MazeSolver hi = new MazeSolver("data2.txt");
+	hi.solve();
+	System.out.println(hi);
+    }
     
 }

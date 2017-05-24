@@ -10,19 +10,17 @@ public class FrontierQueue implements Frontier{
 
     public void add(Location loc){
 	front.add(loc);
-	size++;
     }
 
     public Location next(){
-	size--;
 	return front.remove();
     }
 
     public boolean hasNext(){
-	return size > 0;
+	return front.size() > 0;
     }
 
     public int size(){
-	return size;
+	return front.size();
     }
 }

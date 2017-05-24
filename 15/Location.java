@@ -57,4 +57,5 @@ public class Location implements Comparable<Location>{
     public boolean hasPrevious(){
 	return previous != null;
     }
+
 }
