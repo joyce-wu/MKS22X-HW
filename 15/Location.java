@@ -58,4 +58,8 @@ public class Location implements Comparable<Location>{
 	return previous != null;
     }
 
+    public String toString() {
+	return row + "," + col;
+    }
+
 }
